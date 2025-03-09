@@ -1,0 +1,32 @@
+name: shamaileh_shop
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
+  cloud_firestore: ^4.15.8
+  firebase_messaging: ^14.7.18
+  shared_preferences: ^2.2.2
+  cupertino_icons: ^1.0.8
+  image_picker: ^1.1.2   # تأكد من استخدام آخر نسخة متوافقة
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/background.png
+    - assets/icons/icon.png
+
