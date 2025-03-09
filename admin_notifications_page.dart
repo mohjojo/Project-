@@ -20,7 +20,7 @@ class AdminNotificationsPage extends StatelessWidget {
         child: StreamBuilder<QuerySnapshot>(
           stream: _firestore
               .collection('notifications')
-              .orderBy('date', descending: true) // ترتيب الإشعارات من الأحدث إلى الأقدم
+              .orderBy('timestamp', descending: true) // ترتيب الإشعارات من الأحدث إلى الأقدم
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -41,12 +41,14 @@ class AdminNotificationsPage extends StatelessWidget {
               itemCount: notifications.length,
               itemBuilder: (context, index) {
                 var notification = notifications[index];
+                Timestamp timestamp = notification['timestamp'];
+                DateTime date = timestamp.toDate();
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: ListTile(
                     leading: const Icon(Icons.notifications, color: Colors.blue),
                     title: Text(notification['message'], style: TextStyle(fontWeight: FontWeight.bold)),
-                    subtitle: Text(notification['date']),
+                    subtitle: Text(date.toString()), // تحويل الطابع الزمني إلى نص
                   ),
                 );
               },
