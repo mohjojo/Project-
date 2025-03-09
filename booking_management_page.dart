@@ -31,7 +31,7 @@ class BookingManagementPage extends StatelessWidget {
           ),
         ),
         child: StreamBuilder<QuerySnapshot>(
-          stream: _firestore.collection('bookings').orderBy('date', descending: true).snapshots(),
+          stream: _firestore.collection('bookings').orderBy('timestamp', descending: true).snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -51,6 +51,7 @@ class BookingManagementPage extends StatelessWidget {
               itemCount: bookings.length,
               itemBuilder: (context, index) {
                 var booking = bookings[index];
+                var details = booking['details'] ?? {};
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: ListTile(
@@ -62,8 +63,22 @@ class BookingManagementPage extends StatelessWidget {
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Date: ${booking['date']}"),
+                        Text("Date: ${booking['timestamp'].toDate().toString()}"),
                         Text("Status: ${booking['status']}"),
+                        if (booking['type'] == 'مفصل')
+                          ...[
+                            Text("Name: ${details['name']}"),
+                            Text("Phone: ${details['phone']}"),
+                            Text("Issue: ${details['issue']}"),
+                            Text("Car Model: ${details['carModel']}"),
+                            if (details['imageURL'] != null)
+                              Image.network(
+                                details['imageURL'],
+                                height: 100,
+                                width: 100,
+                                fit: BoxFit.cover,
+                              ),
+                          ],
                       ],
                     ),
                     trailing: Row(
